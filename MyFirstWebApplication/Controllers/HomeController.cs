@@ -26,6 +26,13 @@ namespace MyFirstWebApplication.Controllers
             return View(itemsList.GetAllItems());
         }
 
+        public IActionResult Details(UInt32 id)
+        {
+            ItemsList itemList = new();
+
+            return View(itemList.GetItemById(id));
+        }
+
         public IActionResult Privacy()
         {
             return View();
