@@ -23,14 +23,14 @@ namespace MyFirstWebApplication.Controllers
             return View(itemsList.GetAllItems());
         }
 
-        public IActionResult Details(UInt32 id)
+        public IActionResult Details(uint id)
         {
             ItemsList itemsList = new();
 
             return View(itemsList.GetItemById(id));
         }
 
-        public IActionResult Edit(UInt32 id)
+        public IActionResult Edit(uint id)
         {
             ItemsList itemsList = new();
 
@@ -40,9 +40,17 @@ namespace MyFirstWebApplication.Controllers
         public IActionResult Update(ItemModel item)
         {
             ItemsList itemsList = new();
-            //itemsList.Update(item);
+            itemsList.Update(item);
 
             return View("Details", itemsList.GetItemById(item.Id));
+        }
+
+        public IActionResult Delete(uint id)
+        {
+            ItemsList itemsList = new();
+			itemsList.Delete(id);
+
+			return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

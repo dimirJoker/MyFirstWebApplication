@@ -24,7 +24,7 @@ namespace MyFirstWebApplication.Services
                     {
                         itemList.Add(new ItemModel
                         {
-                            Id = (UInt32)reader[0],
+                            Id = (uint)reader[0],
                             Name = (string)reader[1],
                             Price = (float)reader[2]
                         });
@@ -37,7 +37,7 @@ namespace MyFirstWebApplication.Services
             return itemList;
         }
 
-        public ItemModel GetItemById(UInt32 id)
+        public ItemModel GetItemById(uint id)
         {
             ItemModel item = null;
 
@@ -55,7 +55,7 @@ namespace MyFirstWebApplication.Services
                     {
                         item = new ItemModel
                         {
-                            Id = (UInt32)reader[0],
+                            Id = (uint)reader[0],
                             Name = (string)reader[1],
                             Price = (float)reader[2]
                         };
@@ -66,6 +66,46 @@ namespace MyFirstWebApplication.Services
                 }
             }
             return item;
+        }
+
+        public void Update(ItemModel item)
+        {
+            using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
+            {
+                MySqlCommand command = new("update itemstable set Name=@name, Price=@price where Id=@id", connection);
+                command.Parameters.AddWithValue("@name", item.Name);
+                command.Parameters.AddWithValue("@price", item.Price);
+                command.Parameters.AddWithValue("@id", item.Id);
+
+                try
+                {
+                    connection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+        public void Delete(uint id)
+        {
+            using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
+            {
+                MySqlCommand command = new("delete from itemstable where Id=@id", connection);
+                command.Parameters.AddWithValue("@id", id);
+
+                try
+                {
+                    connection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
         }
     }
 }
