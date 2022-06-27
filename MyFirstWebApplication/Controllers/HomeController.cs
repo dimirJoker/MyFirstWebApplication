@@ -3,10 +3,7 @@ using Microsoft.Extensions.Logging;
 using MyFirstWebApplication.Models;
 using MyFirstWebApplication.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstWebApplication.Controllers
 {
@@ -28,16 +25,24 @@ namespace MyFirstWebApplication.Controllers
 
         public IActionResult Details(UInt32 id)
         {
-            ItemsList itemList = new();
+            ItemsList itemsList = new();
 
-            return View(itemList.GetItemById(id));
+            return View(itemsList.GetItemById(id));
         }
-        
+
         public IActionResult Edit(UInt32 id)
         {
-            ItemsList itemList = new();
+            ItemsList itemsList = new();
 
-            return View(itemList.GetItemById(id));
+            return View(itemsList.GetItemById(id));
+        }
+
+        public IActionResult Update(ItemModel item)
+        {
+            ItemsList itemsList = new();
+            //itemsList.Update(item);
+
+            return View("Details", itemsList.GetItemById(item.Id));
         }
 
         public IActionResult Privacy()
