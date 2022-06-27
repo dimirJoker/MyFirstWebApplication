@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using MyFirstWebApplication.Models;
 using MyFirstWebApplication.Services;
-using System;
 using System.Diagnostics;
 
 namespace MyFirstWebApplication.Controllers
@@ -18,39 +17,49 @@ namespace MyFirstWebApplication.Controllers
 
         public IActionResult Index()
         {
-            ItemsList itemsList = new();
+            ItemsTable itemsTable = new();
 
-            return View(itemsList.GetAllItems());
+            return View(itemsTable.GetAllItems());
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public IActionResult Insert(ItemModel item)
+        {
+            return RedirectToAction("Index");
         }
 
         public IActionResult Details(uint id)
         {
-            ItemsList itemsList = new();
+            ItemsTable itemsTable = new();
 
-            return View(itemsList.GetItemById(id));
+            return View(itemsTable.GetItemById(id));
         }
 
         public IActionResult Edit(uint id)
         {
-            ItemsList itemsList = new();
+            ItemsTable itemsTable = new();
 
-            return View(itemsList.GetItemById(id));
+            return View(itemsTable.GetItemById(id));
         }
 
         public IActionResult Update(ItemModel item)
         {
-            ItemsList itemsList = new();
-            itemsList.Update(item);
+            ItemsTable itemsTable = new();
+            itemsTable.Update(item);
 
-            return View("Details", itemsList.GetItemById(item.Id));
+            return View("Details", itemsTable.GetItemById(item.Id));
         }
 
         public IActionResult Delete(uint id)
         {
-            ItemsList itemsList = new();
-			itemsList.Delete(id);
+            ItemsTable itemsTable = new();
+            itemsTable.Delete(id);
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

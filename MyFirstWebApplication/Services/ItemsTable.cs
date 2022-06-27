@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace MyFirstWebApplication.Services
 {
-    public class ItemsList
+    public class ItemsTable
     {
         public List<ItemModel> GetAllItems()
         {
-            List<ItemModel> itemList = new();
+            List<ItemModel> itemsTable = new();
 
             using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
             {
@@ -22,7 +22,7 @@ namespace MyFirstWebApplication.Services
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        itemList.Add(new ItemModel
+                        itemsTable.Add(new ItemModel
                         {
                             Id = (uint)reader[0],
                             Name = (string)reader[1],
@@ -34,7 +34,7 @@ namespace MyFirstWebApplication.Services
                 {
                 }
             }
-            return itemList;
+            return itemsTable;
         }
 
         public ItemModel GetItemById(uint id)
