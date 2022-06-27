@@ -32,6 +32,13 @@ namespace MyFirstWebApplication.Controllers
 
             return View(itemList.GetItemById(id));
         }
+        
+        public IActionResult Edit(UInt32 id)
+        {
+            ItemsList itemList = new();
+
+            return View(itemList.GetItemById(id));
+        }
 
         public IActionResult Privacy()
         {
