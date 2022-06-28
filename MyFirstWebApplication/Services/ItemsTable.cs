@@ -1,5 +1,6 @@
 ﻿using MyFirstWebApplication.Models;
 using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 
 namespace MyFirstWebApplication.Services
@@ -37,7 +38,7 @@ namespace MyFirstWebApplication.Services
                     });
                 }
             }
-            catch
+            catch (Exception ex)
             {
             }
             return itemsTable;
@@ -55,7 +56,7 @@ namespace MyFirstWebApplication.Services
 
                 MySqlDataReader reader = command.ExecuteReader();
             }
-            catch
+            catch (Exception ex)
             {
             }
         }
@@ -82,7 +83,7 @@ namespace MyFirstWebApplication.Services
                     };
                 }
             }
-            catch
+            catch (Exception ex)
             {
             }
             return item;
@@ -101,7 +102,7 @@ namespace MyFirstWebApplication.Services
 
                 MySqlDataReader reader = command.ExecuteReader();
             }
-            catch
+            catch (Exception ex)
             {
             }
         }
@@ -117,7 +118,7 @@ namespace MyFirstWebApplication.Services
 
                 MySqlDataReader reader = command.ExecuteReader();
             }
-            catch
+            catch (Exception ex)
             {
             }
         }
