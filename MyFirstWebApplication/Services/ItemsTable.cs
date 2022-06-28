@@ -21,7 +21,7 @@ namespace MyFirstWebApplication.Services
         {
             List<ItemModel> itemsTable = new();
 
-            using (MySqlCommand command = new("select * from itemstable", _connection))
+            using (MySqlCommand command = new($"select * from itemstable", _connection))
             {
                 try
                 {
@@ -42,6 +42,7 @@ namespace MyFirstWebApplication.Services
                 {
                 }
             }
+
             return itemsTable;
         }
 
@@ -91,6 +92,7 @@ namespace MyFirstWebApplication.Services
                 {
                 }
             }
+
             return item;
         }
 
