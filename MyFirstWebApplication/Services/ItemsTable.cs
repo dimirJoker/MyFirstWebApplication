@@ -34,7 +34,7 @@ namespace MyFirstWebApplication.Services
                     {
                         Id = (uint)reader[0],
                         Name = (string)reader[1],
-                        Price = (float)reader[2]
+                        Salary = (float)reader[2]
                     });
                 }
 
@@ -48,9 +48,9 @@ namespace MyFirstWebApplication.Services
 
         public void Insert(ItemModel item)
         {
-            MySqlCommand command = new("insert into itemstable (Name, Price) values (@name, @price)", _connection);
+            MySqlCommand command = new("insert into itemstable (Name, Salary) values (@name, @salary)", _connection);
             command.Parameters.AddWithValue("@name", item.Name);
-            command.Parameters.AddWithValue("@price", item.Price);
+            command.Parameters.AddWithValue("@salary", item.Salary);
 
             try
             {
@@ -83,7 +83,7 @@ namespace MyFirstWebApplication.Services
                     {
                         Id = (uint)reader[0],
                         Name = (string)reader[1],
-                        Price = (float)reader[2]
+                        Salary = (float)reader[2]
                     };
                 }
 
@@ -97,9 +97,9 @@ namespace MyFirstWebApplication.Services
 
         public void Update(ItemModel item)
         {
-            MySqlCommand command = new("update itemstable set Name=@name, Price=@price where Id=@id", _connection);
+            MySqlCommand command = new("update itemstable set Name=@name, Salary=@salary where Id=@id", _connection);
             command.Parameters.AddWithValue("@name", item.Name);
-            command.Parameters.AddWithValue("@price", item.Price);
+            command.Parameters.AddWithValue("@salary", item.Salary);
             command.Parameters.AddWithValue("@id", item.Id);
 
             try
