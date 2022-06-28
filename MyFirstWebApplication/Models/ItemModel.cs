@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyFirstWebApplication.Models
+﻿namespace MyFirstWebApplication.Models
 {
     public class ItemModel
     {
