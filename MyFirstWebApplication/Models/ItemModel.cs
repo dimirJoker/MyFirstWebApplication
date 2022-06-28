@@ -11,7 +11,7 @@ namespace MyFirstWebApplication.Models
         public string Name { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(0, float.MaxValue)]
+        [Range(0, uint.MaxValue)]
         public float Salary { get; set; }
     }
 }
