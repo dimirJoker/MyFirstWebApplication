@@ -34,7 +34,7 @@ namespace MyFirstWebApplication.Services
                     {
                         Id = (uint)reader[0],
                         Name = (string)reader[1],
-                        Salary = (float)reader[2]
+                        Salary = (decimal)reader[2]
                     });
                 }
 
@@ -83,7 +83,7 @@ namespace MyFirstWebApplication.Services
                     {
                         Id = (uint)reader[0],
                         Name = (string)reader[1],
-                        Salary = (float)reader[2]
+                        Salary = (decimal)reader[2]
                     };
                 }
 
