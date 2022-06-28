@@ -37,6 +37,8 @@ namespace MyFirstWebApplication.Services
                         Price = (float)reader[2]
                     });
                 }
+
+                _connection.Close();
             }
             catch (Exception ex)
             {
@@ -55,6 +57,8 @@ namespace MyFirstWebApplication.Services
                 _connection.Open();
 
                 MySqlDataReader reader = command.ExecuteReader();
+
+                _connection.Close();
             }
             catch (Exception ex)
             {
@@ -82,6 +86,8 @@ namespace MyFirstWebApplication.Services
                         Price = (float)reader[2]
                     };
                 }
+
+                _connection.Close();
             }
             catch (Exception ex)
             {
@@ -101,6 +107,8 @@ namespace MyFirstWebApplication.Services
                 _connection.Open();
 
                 MySqlDataReader reader = command.ExecuteReader();
+
+                _connection.Close();
             }
             catch (Exception ex)
             {
@@ -117,6 +125,8 @@ namespace MyFirstWebApplication.Services
                 _connection.Open();
 
                 MySqlDataReader reader = command.ExecuteReader();
+
+                _connection.Close();
             }
             catch (Exception ex)
             {

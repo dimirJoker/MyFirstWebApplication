@@ -29,8 +29,11 @@ namespace MyFirstWebApplication.Controllers
 
         public IActionResult Insert(ItemModel item)
         {
-            ItemsTable itemTable = new();
-            itemTable.Insert(item);
+            if (item.Name != null)
+            {
+                ItemsTable itemTable = new();
+                itemTable.Insert(item);
+            }
 
             return RedirectToAction("Index");
         }
@@ -52,7 +55,11 @@ namespace MyFirstWebApplication.Controllers
         public IActionResult Update(ItemModel item)
         {
             ItemsTable itemsTable = new();
-            itemsTable.Update(item);
+
+            if (item.Name != null)
+            {
+                itemsTable.Update(item);
+            }
 
             return View("Details", itemsTable.GetItemById(item.Id));
         }
