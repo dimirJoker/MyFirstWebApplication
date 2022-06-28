@@ -21,47 +21,46 @@ namespace MyFirstWebApplication.Services
         {
             List<ItemModel> itemsTable = new();
 
-            MySqlCommand command = new("select * from itemstable", _connection);
-
-            try
+            using (MySqlCommand command = new("select * from itemstable", _connection))
             {
-                _connection.Open();
-
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    itemsTable.Add(new ItemModel
-                    {
-                        Id = (uint)reader[0],
-                        Name = (string)reader[1],
-                        Salary = (float)reader[2]
-                    });
-                }
+                    _connection.Open();
 
-                _connection.Close();
-            }
-            catch (Exception ex)
-            {
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        itemsTable.Add(new ItemModel
+                        {
+                            Id = (uint)reader[0],
+                            Name = (string)reader[1],
+                            Salary = (float)reader[2]
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
             }
             return itemsTable;
         }
 
         public void Insert(ItemModel item)
         {
-            MySqlCommand command = new("insert into itemstable (Name, Salary) values (@name, @salary)", _connection);
-            command.Parameters.AddWithValue("@name", item.Name);
-            command.Parameters.AddWithValue("@salary", item.Salary);
-
-            try
+            using (MySqlCommand command = new("insert into itemstable (Name, Salary) values (@name, @salary)", _connection))
             {
-                _connection.Open();
+                command.Parameters.AddWithValue("@name", item.Name);
+                command.Parameters.AddWithValue("@salary", item.Salary);
 
-                MySqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    _connection.Open();
 
-                _connection.Close();
-            }
-            catch (Exception ex)
-            {
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                }
             }
         }
 
@@ -69,49 +68,49 @@ namespace MyFirstWebApplication.Services
         {
             ItemModel item = null;
 
-            MySqlCommand command = new("select * from itemstable where Id = @id", _connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            try
+            using (MySqlCommand command = new("select * from itemstable where Id = @id", _connection))
             {
-                _connection.Open();
+                command.Parameters.AddWithValue("@id", id);
 
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    item = new ItemModel
-                    {
-                        Id = (uint)reader[0],
-                        Name = (string)reader[1],
-                        Salary = (float)reader[2]
-                    };
-                }
+                    _connection.Open();
 
-                _connection.Close();
-            }
-            catch (Exception ex)
-            {
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        item = new ItemModel
+                        {
+                            Id = (uint)reader[0],
+                            Name = (string)reader[1],
+                            Salary = (float)reader[2]
+                        };
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
             }
             return item;
         }
 
         public void Update(ItemModel item)
         {
-            MySqlCommand command = new("update itemstable set Name=@name, Salary=@salary where Id=@id", _connection);
-            command.Parameters.AddWithValue("@name", item.Name);
-            command.Parameters.AddWithValue("@salary", item.Salary);
-            command.Parameters.AddWithValue("@id", item.Id);
-
-            try
+            using (MySqlCommand command = new("update itemstable set Name=@name, Salary=@salary where Id=@id", _connection))
             {
-                _connection.Open();
+                command.Parameters.AddWithValue("@name", item.Name);
+                command.Parameters.AddWithValue("@salary", item.Salary);
+                command.Parameters.AddWithValue("@id", item.Id);
 
-                MySqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    _connection.Open();
 
-                _connection.Close();
-            }
-            catch (Exception ex)
-            {
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                }
             }
         }
 
@@ -125,8 +124,6 @@ namespace MyFirstWebApplication.Services
                 _connection.Open();
 
                 MySqlDataReader reader = command.ExecuteReader();
-
-                _connection.Close();
             }
             catch (Exception ex)
             {
