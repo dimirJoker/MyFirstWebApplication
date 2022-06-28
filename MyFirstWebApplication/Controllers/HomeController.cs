@@ -29,6 +29,9 @@ namespace MyFirstWebApplication.Controllers
 
         public IActionResult Insert(ItemModel item)
         {
+            ItemsTable itemTable = new();
+            itemTable.Insert(item);
+
             return RedirectToAction("Index");
         }
 

@@ -1,110 +1,124 @@
 ﻿using MyFirstWebApplication.Models;
 using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
 
 namespace MyFirstWebApplication.Services
 {
     public class ItemsTable
     {
+        private static MySqlConnectionStringBuilder _connectionStringBuilder = new()
+        {
+            Server = "localhost",
+            Database = "itemsdb",
+            UserID = "root",
+            Password = "root"
+        };
+
+        private MySqlConnection _connection = new(_connectionStringBuilder.ConnectionString);
+
         public List<ItemModel> GetAllItems()
         {
             List<ItemModel> itemsTable = new();
 
-            using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
+            MySqlCommand command = new("select * from itemstable", _connection);
+
+            try
             {
-                MySqlCommand command = new("select * from itemstable", connection);
+                _connection.Open();
 
-                try
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    connection.Open();
-
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    itemsTable.Add(new ItemModel
                     {
-                        itemsTable.Add(new ItemModel
-                        {
-                            Id = (uint)reader[0],
-                            Name = (string)reader[1],
-                            Price = (float)reader[2]
-                        });
-                    }
-                }
-                catch (Exception ex)
-                {
+                        Id = (uint)reader[0],
+                        Name = (string)reader[1],
+                        Price = (float)reader[2]
+                    });
                 }
             }
+            catch
+            {
+            }
             return itemsTable;
+        }
+
+        public void Insert(ItemModel item)
+        {
+            MySqlCommand command = new("insert into itemstable (Name, Price) values (@name, @price)", _connection);
+            command.Parameters.AddWithValue("@name", item.Name);
+            command.Parameters.AddWithValue("@price", item.Price);
+
+            try
+            {
+                _connection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+            }
+            catch
+            {
+            }
         }
 
         public ItemModel GetItemById(uint id)
         {
             ItemModel item = null;
 
-            using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
+            MySqlCommand command = new("select * from itemstable where Id = @id", _connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            try
             {
-                MySqlCommand command = new("select * from itemstable where Id = @id", connection);
-                command.Parameters.AddWithValue("@id", id);
+                _connection.Open();
 
-                try
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    connection.Open();
-
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    item = new ItemModel
                     {
-                        item = new ItemModel
-                        {
-                            Id = (uint)reader[0],
-                            Name = (string)reader[1],
-                            Price = (float)reader[2]
-                        };
-                    }
+                        Id = (uint)reader[0],
+                        Name = (string)reader[1],
+                        Price = (float)reader[2]
+                    };
                 }
-                catch (Exception ex)
-                {
-                }
+            }
+            catch
+            {
             }
             return item;
         }
 
         public void Update(ItemModel item)
         {
-            using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
+            MySqlCommand command = new("update itemstable set Name=@name, Price=@price where Id=@id", _connection);
+            command.Parameters.AddWithValue("@name", item.Name);
+            command.Parameters.AddWithValue("@price", item.Price);
+            command.Parameters.AddWithValue("@id", item.Id);
+
+            try
             {
-                MySqlCommand command = new("update itemstable set Name=@name, Price=@price where Id=@id", connection);
-                command.Parameters.AddWithValue("@name", item.Name);
-                command.Parameters.AddWithValue("@price", item.Price);
-                command.Parameters.AddWithValue("@id", item.Id);
+                _connection.Open();
 
-                try
-                {
-                    connection.Open();
-
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-                catch (Exception ex)
-                {
-                }
+                MySqlDataReader reader = command.ExecuteReader();
+            }
+            catch
+            {
             }
         }
 
         public void Delete(uint id)
         {
-            using (MySqlConnection connection = new MySqlConnection("server=localhost;database=itemsdb;user id=root;password=root"))
+            MySqlCommand command = new("delete from itemstable where Id=@id", _connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            try
             {
-                MySqlCommand command = new("delete from itemstable where Id=@id", connection);
-                command.Parameters.AddWithValue("@id", id);
+                _connection.Open();
 
-                try
-                {
-                    connection.Open();
-
-                    MySqlDataReader reader = command.ExecuteReader();
-                }
-                catch (Exception ex)
-                {
-                }
+                MySqlDataReader reader = command.ExecuteReader();
+            }
+            catch
+            {
             }
         }
     }
