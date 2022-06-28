@@ -13,5 +13,8 @@ namespace MyFirstWebApplication.Models
         [DataType(DataType.Currency)]
         [Range(0, uint.MaxValue)]
         public float Salary { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public string Image { get; set; }
     }
 }

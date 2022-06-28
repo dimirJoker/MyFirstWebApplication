@@ -15,14 +15,16 @@ namespace MyFirstWebApplication.Services
             Password = "root"
         };
 
-        private MySqlConnection _connection = new(_connectionStringBuilder.ConnectionString);
+        private static MySqlConnection _connection = new(_connectionStringBuilder.ConnectionString);
 
         public List<ItemModel> GetAllItems()
         {
             List<ItemModel> itemsTable = new();
 
-            using (MySqlCommand command = new($"select * from itemstable", _connection))
+            using (_connection)
             {
+                MySqlCommand command = new($"select * from itemstable", _connection);
+
                 try
                 {
                     _connection.Open();
@@ -34,7 +36,8 @@ namespace MyFirstWebApplication.Services
                         {
                             Id = (uint)reader[0],
                             Name = (string)reader[1],
-                            Salary = (float)reader[2]
+                            Salary = (float)reader[2],
+                            Image = (string)reader[3]
                         });
                     }
                 }
@@ -48,8 +51,9 @@ namespace MyFirstWebApplication.Services
 
         public void Insert(ItemModel item)
         {
-            using (MySqlCommand command = new("insert into itemstable (Name, Salary) values (@name, @salary)", _connection))
+            using (_connection)
             {
+                MySqlCommand command = new("insert into itemstable (Name, Salary) values (@name, @salary)", _connection);
                 command.Parameters.AddWithValue("@name", item.Name);
                 command.Parameters.AddWithValue("@salary", item.Salary);
 
@@ -69,8 +73,9 @@ namespace MyFirstWebApplication.Services
         {
             ItemModel item = null;
 
-            using (MySqlCommand command = new("select * from itemstable where Id = @id", _connection))
+            using (_connection)
             {
+                MySqlCommand command = new("select * from itemstable where Id = @id", _connection);
                 command.Parameters.AddWithValue("@id", id);
 
                 try
@@ -84,7 +89,8 @@ namespace MyFirstWebApplication.Services
                         {
                             Id = (uint)reader[0],
                             Name = (string)reader[1],
-                            Salary = (float)reader[2]
+                            Salary = (float)reader[2],
+                            Image = (string)reader[3]
                         };
                     }
                 }
@@ -98,8 +104,9 @@ namespace MyFirstWebApplication.Services
 
         public void Update(ItemModel item)
         {
-            using (MySqlCommand command = new("update itemstable set Name=@name, Salary=@salary where Id=@id", _connection))
+            using (_connection)
             {
+                MySqlCommand command = new("update itemstable set Name=@name, Salary=@salary where Id=@id", _connection);
                 command.Parameters.AddWithValue("@name", item.Name);
                 command.Parameters.AddWithValue("@salary", item.Salary);
                 command.Parameters.AddWithValue("@id", item.Id);
@@ -118,17 +125,20 @@ namespace MyFirstWebApplication.Services
 
         public void Delete(uint id)
         {
-            MySqlCommand command = new("delete from itemstable where Id=@id", _connection);
-            command.Parameters.AddWithValue("@id", id);
-
-            try
+            using (_connection)
             {
-                _connection.Open();
+                MySqlCommand command = new("delete from itemstable where Id=@id", _connection);
+                command.Parameters.AddWithValue("@id", id);
 
-                MySqlDataReader reader = command.ExecuteReader();
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    _connection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                }
             }
         }
     }
